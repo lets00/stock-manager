@@ -8,18 +8,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inatel.stockmanager.models.Notification;
 import com.inatel.stockmanager.models.Stock;
 
 @RestController
 public class StockController {
 	
 	private List<Stock> stocks;
+	private List<Notification> notifications;
 	
 	public StockController() {
 		stocks = new ArrayList<Stock>();
+		notifications = new ArrayList();
 		stocks.add(new Stock("PETR3", "test petr"));
 		stocks.add(new Stock("VALE5", "test vale"));
-		
 	}
 			
 	@GetMapping("/stock")
@@ -32,6 +34,11 @@ public class StockController {
 		if (!isInStockList(stock)) {
 			stocks.add(stock);
 		}
+	}
+	
+	@PostMapping("/notification")
+	private void notification(@RequestBody Notification notification) {
+		notifications.add(notification);
 	}
 	
 	private boolean isInStockList(Stock stock) {
